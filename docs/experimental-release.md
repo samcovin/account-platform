@@ -1,6 +1,7 @@
 # Experimental source release scope — 2026-11-10 UTC
 
-Status: prepared for review; publication is not approved or performed. This is
+Status: public experimental source publication approved; see the dated approval
+checkpoint and separate remote execution record. This is
 source for inspection and development, not an installable deployment bundle or a
 production-readiness claim. Component version strings remain compatibility IDs:
 app 0.5.0 candidate, approver 0.3.0 candidate, worker 0.2.0, public handler 0.3.0.
@@ -19,7 +20,8 @@ attribution, app metadata and all existing file-license assignments are preserve
 For this source release, service execution stays disabled by default and runtime
 privacy, retention, MFA/TLS and delivery choices remain installation prerequisites.
 GitHub private vulnerability reporting is selected, to be enabled and verified
-only after final approval, before the first source push. It is not enabled now.
+after final approval, before the first source push. It was enabled and verified
+on the personal upstream before source push; see SECURITY.md for the dated check.
 The source itself cannot enable a repository reporting setting. No private
 email address, work account identity or credential is embedded in this release.
 
@@ -30,8 +32,9 @@ future obligations or change an existing license.
 
 See [remaining decisions](remaining-release-decisions.md) for the current gate
 states. Accepting experimental scope is not a successful service integration
-test. The personal Git identity was explicitly selected. Exact contents, destinations
-and publication still need final approval.
+test. The personal Git identity was explicitly selected. The maintainer approved exact
+contents, destinations and publication; see publication-approval.md for evidence.
+Actual push/fork verification is recorded separately after execution.
 
 ## Evidence and untested integrations
 

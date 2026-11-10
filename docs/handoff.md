@@ -6,21 +6,18 @@ the complete app keeps AGPL-3.0-or-later. Preserve all existing/third-party noti
 and keep the license map complete. Follow the recorded ownership/source-scope
 decisions and revisit them if outside material or restrictions are identified.
 
-The working repository uses `feature/experimental-source-release` with a staged,
-uncommitted initial import, normal core defaults, explicitly selected personal
-Git identity and no remote.
-No original Git history, reflogs, hooks/signing overrides or credentials were
-imported. The new personal identity was selected by the maintainer; extracted
-source copies must select their own identity before committing. Source-only
-packaging excludes every Git directory and surrounding private audit/reference.
+The fresh source history starts with the exact reviewed 103-file initial import,
+then separately records the maintainer's explicit source-publication approval.
+No old history, reflogs, hooks/signing overrides or credentials were imported.
+Use a deliberately selected local identity for future personal or work commits.
+The source-only review archive excludes Git and private preparation/reference.
 
-Initial-import hygiene passed before the personal identity was selected. For a
-new extracted copy, use `tools/verify-handoff.py --initial-import` before the first
-commit or identity/real configuration, then default development mode thereafter.
-The initial-import mode intentionally refuses a selected author. Default mode
-permits normal authors/remotes/domains while checking index/tracked source and available
-local Git objects. `check-public-release.py` adds public source/license coverage;
-`--release` enforces unresolved human gates. None publishes or contacts services.
+Initial-import hygiene ran before the first commit/identity selection. New archive
+imports can run `tools/verify-handoff.py --initial-import` at that point; established
+development uses the default mode, which permits normal authors/remotes/domains
+while checking tracked/index files and stored Git objects. The public checker
+adds complete source/license coverage; `--release` enforces all named gate records.
+None of these source checkers contacts or deploys a service.
 
 Before any runtime use choose work service adapters, domains/senders, paths,
 containers, flow/admin/protected users, quotas, MFA/TLS, approval/audit policy,
@@ -44,5 +41,6 @@ reversal. Original input/reference copies remain unchanged outside public source
 The current release target is experimental source only. Read
 [scope and untested integrations](experimental-release.md) and the
 [personal-upstream/work-fork plan](github-handoff.md). Exact publication identity,
-destination and manifest remain in a separate local approval dossier; no public
-repository/fork, account setting, commit or push is authorized by this guide.
+destination and manifest remain in a separate local approval dossier. The
+maintainer explicitly approved the exact source publication/fork plan; this guide
+adds no authorization for other destinations, private work disclosure or deployment.

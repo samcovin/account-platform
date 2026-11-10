@@ -2,13 +2,14 @@
 
 Do not put credentials, signing/encryption keys, environment files, databases,
 account exports, recipient records, filenames from user data or raw user logs in
-Git or public issues. The maintainer selected **GitHub private vulnerability
-reporting**. It is planned, not enabled or verified in this preparation. After
-final approval it must be enabled and verified before the first source push.
-Once active, use the repository's **Security → Report a vulnerability** route.
-If that control is unavailable, do not post sensitive evidence in a public issue;
-request a private channel without disclosing the vulnerability or personal data.
-No public issue or pull request is a substitute for private reporting.
+Git or public issues. The personal upstream's **GitHub private vulnerability
+reporting** was enabled and independently verified at **2026-11-10T02:00:45+00:00** before
+the first source push. Use the personal upstream repository's
+**Security → Report a vulnerability** route. A fork's reporting setting must be
+verified independently; do not assume it inherits that feature.
+If the private reporting control is unavailable, do not post sensitive evidence
+in a public issue; request a private channel without disclosing vulnerability or
+personal data. No public issue or pull request substitutes for private reporting.
 See [GitHub's reporting setup](https://docs.github.com/en/code-security/how-tos/report-and-fix-vulnerabilities/configure-vulnerability-reporting/configure-for-a-repository).
 
 Host CLIs and the public PHP form use an explicit operator/server-controlled

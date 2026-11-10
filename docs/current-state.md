@@ -1,30 +1,28 @@
-# Experimental source candidate state — 2026-11-10 UTC
+# Experimental source checkpoint — 2026-11-10T01:57:28+00:00
 
-Prepared locally, staged/uncommitted on feature/experimental-source-release.
-The explicitly approved personal Git identity is selected locally. No remote,
-commit, public repository, fork, push or service deployment exists from preparation.
-A separate local dossier records the exact identity and proposes destinations,
-contents and first commit for final approval.
+Public experimental source publication is explicitly approved for
+`samcovin/account-platform`, followed by public work fork
+`doublednurseryama/account-platform`. The source history starts with the exact
+reviewed 103-file import `141c3f7ac3940c5db893cc5b5e4c1f82a5568a36` and adds a documentation approval
+record. The selected personal Git author/committer is Sam Covin using the approved
+noreply identity. No original private Git history or old reference code is imported.
+
+All six source-release gates have recorded resolutions. The personal repository
+was created empty and its private vulnerability reporting independently enabled
+and verified at 2026-11-10T02:00:45+00:00, before source push. This is an approval/pre-push
+checkpoint; actual remote push/fork commits and UTC verification results are
+recorded separately after execution. It is not application deployment evidence.
 
 App 0.5.0 and approver 0.3.0 remain candidates; worker 0.2.0 and public handler
-0.3.0 retain their compatibility identifiers. Scoped first-party source outside
-the app remains BSD 3-Clause, copyright Sam Covin. The whole app retains AGPL
-and its original attribution; license documents/assignments are unchanged.
+0.3.0 retain compatibility identifiers. Existing BSD first-party scope, complete
+AGPL app scope, original attribution and license documents remain unchanged.
 
-The maintainer selected experimental source scope, confirmed no known outside
-ownership restrictions and chose GitHub private reporting after final approval.
-Ownership, security/source-scope and service/release-scope decisions are recorded;
-PHP local validation was already complete. The maintainer accepted mixed-license
-source-only distribution without bundled dependencies or a claim about future
-combinations. Only exact publication approval remains open in LICENSE-MAP.json. Private
-reporting still requires activation and verification before the first approved source push.
+Local evidence: 166 earlier Python cases, 55 PHP mocks, 30 PHP lint files, four
+offline unit checks, and a later 55-case offline tools rerun. Seventeen Python
+cases use real local PHP/HTTP/SMTP fixtures. Real Nextcloud/Mailcow/Authentik,
+framework/FPM/TLS/browser, upgrades/migrations, database races and encrypted
+recovery remain untested. Runtime opt-in remains disabled by default; service
+configuration, policy, integrations and production authority are separate work.
 
-Existing evidence is 166 Python cases, 55 PHP mock cases, 30 PHP lint files and
-four offline systemd unit/timer checks. That includes 17 real local PHP/HTTP/SMTP
-fixtures, not full Nextcloud/Mailcow/Authentik/FPM/TLS or database integration.
-Real upgrades, concurrency, encrypted recovery and user acceptance are untested.
-The newest source/docs checks are in docs/experimental-release-validation.json.
-
-Runtime opt-in stays disabled; optional labs need reviewed cached images and an
-external hash-pinned 0.4.0 baseline. No original snapshot is mixed into this code.
-Read docs/experimental-release.md and docs/github-handoff.md for limits/next steps.
+Read docs/publication-approval.md, docs/experimental-release.md,
+docs/work-configuration.md and docs/github-handoff.md before continuing.

@@ -1,28 +1,27 @@
-# Experimental source-release checklist — not cleared for publication
+# Experimental source-release checklist — approved source scope
 
-The maintainer selected experimental source release followed by a work fork,
-confirmed no outside material or known ownership restriction and selected GitHub
-private vulnerability reporting after final approval. Existing BSD/AGPL notices
-and attribution remain unchanged. LICENSE-MAP.json retains all six gates.
+The maintainer explicitly approved public experimental source publication and
+the public work fork. GitHub private vulnerability reporting was enabled and
+verified before source push at 2026-11-10T02:00:45+00:00. See
+[approval evidence](docs/publication-approval.md). All six named gate records
+remain in LICENSE-MAP.json; none was deleted or bypassed.
 
-| Gate | Status / remaining action |
+| Gate | Recorded resolution / limits |
 | --- | --- |
-| OWNERSHIP-REVIEW | Resolved from the explicit maintainer statement; preserve existing notices |
-| APP-INTEGRATION-RIGHTS | Resolved: maintainer accepts source-only mixed BSD/AGPL scope without bundled dependencies; future combined-distribution review remains required |
-| SECURITY-POLICY | Resolved for disabled experimental examples; enable/verify GitHub private reporting only after final approval and before first source push |
-| PHP-VALIDATION | Complete: PHP 8.3.36 lint, 55 PHP mocks and 17 real local PHP/HTTP cases passed |
-| SERVICE-VALIDATION | Resolved as experimental source scope; actual service/upgrade/concurrency/restore integration is untested |
-| PUBLICATION-APPROVAL | Pending exact owner/name/contents and public work-fork approval; personal identity selected; account authentication and permissions unverified |
+| OWNERSHIP-REVIEW | Maintainer confirms no outside material or known ownership restriction; preserve notices |
+| APP-INTEGRATION-RIGHTS | Mixed BSD/AGPL source only, no bundled dependencies; later combined-distribution review remains required |
+| SECURITY-POLICY | Disabled experimental examples; selected private reporting independently enabled/verified; installation policy still needs review |
+| PHP-VALIDATION | PHP 8.3.36 lint, 55 PHP mock cases and 17 real local PHP/HTTP cases passed |
+| SERVICE-VALIDATION | Explicit experimental source scope; actual service/upgrade/concurrency/restore integration remains untested |
+| PUBLICATION-APPROVAL | Explicit maintainer approval of exact destinations, reviewed source, noreply identity, reporting and public fork; actual remote execution recorded separately |
 
-The default checker can pass while publication remains blocked. Run
-`python3 tools/check-public-release.py --release`; unresolved gates intentionally
-return exit 2. Do not erase gate records, treat disabled runtime as a sandbox or
-replace missing runtime evidence with a checksum or successful mock test.
+`python3 tools/check-public-release.py --release` must now pass for the approved
+source. It does not authorize real-service operations, prove legal rights or
+certify runtime security. Changes to scope, dependencies or source require review.
 
-The separate local approval dossier contains exact proposed names, identity and
-file hashes. No old reference, private preparation audit, imported history or
-surrounding handoff directory should be uploaded. Use only the reviewed candidate.
-The public fork remains public and keeps the personal source commit's authorship.
-The approved personal Git identity is selected locally. No GitHub repository, fork,
-Git remote/commit, account setting, push or deployment was created in preparation. Read [decisions](docs/remaining-release-decisions.md)
-and [planned sequence](docs/github-handoff.md) before taking any public action.
+Push only the reviewed source history to the approved main branch. Do not upload
+surrounding handoffs, old references, private preparation, original Git history,
+credentials, real records or runtime packages. Verify remote visibility, refs,
+identity, fork relationship and reporting; record actual commit/UTC results after
+publication. No app installation, migration, provisioning, email, retention cleanup,
+Pages, image/package or deployment accompanies this source publication.

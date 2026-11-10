@@ -1,6 +1,6 @@
 # Public-source privacy and safety review
 
-Status: prepared candidate; no publication or deployment. This is a limited
+Status: approved public experimental source scope; no service deployment. This is a limited
 source review with explicit remaining questions, not a certification.
 
 ## Personal information and operational details
@@ -63,20 +63,18 @@ well as disk files. PHP-VALIDATION was completed with actual local evidence.
 
 ## Experimental source-release decisions — 2026-11-10 UTC
 
-The maintainer now requests experimental source release followed by a work fork,
-confirms no outside material or known ownership restrictions, and selects GitHub
-private vulnerability reporting after final approval. Ownership, security policy
-for disabled source examples, and experimental release-scope decisions are
-recorded in LICENSE-MAP.json. This does not approve a real-service installation
-or mark integration/upgrade/recovery tests as passed. Reporting is not active yet;
-it must be enabled and verified after final approval and before the first push.
+The maintainer approved public experimental source publication and the subsequent
+public work fork at 2026-11-10T01:57:28+00:00, following the recorded ownership, mixed-license
+source scope, security/reporting and experimental-service decisions. All six named
+gates retain resolution/evidence records. Private reporting was enabled and
+verified on the empty personal repository before any source push.
 
-The maintainer accepted mixed-license source-only distribution, with future
-combined-work review still required. Only exact publication approval remains open. The separate local approval dossier
-shows proposed names, author/committer,
-file manifest, tree hash and archive hash. The personal Git identity is approved and selected locally. No GitHub repository,
-commit, remote, fork, account setting, push, publication or deployment was created. The work fork of a
-public repository will be public, with the personal source authorship retained.
-See [plain-language decisions](docs/remaining-release-decisions.md),
+See [approval evidence](docs/publication-approval.md). The exact initial source
+commit matches the reviewed 103-file tree; a separate documentation commit records
+approval. Existing app/runtime source, license documents and notice assignments
+remain unchanged. Actual GitHub push/fork results are recorded separately after
+verification. Real services, upgrades, database concurrency and encrypted recovery
+remain untested. Production installation and policy still require separate review.
+See [decisions](docs/remaining-release-decisions.md),
 [experimental evidence matrix](docs/experimental-release.md),
 [dependency inventory](docs/dependency-boundaries.md) and RELEASE_CHECKLIST.md.

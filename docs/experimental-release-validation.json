@@ -64,5 +64,6 @@
     "Actual service/account/mail/delivery/cleanup operations",
     "GitHub authenticated permissions, private-name collision, reporting activation and work-fork policy"
   ],
-  "no_production_push_publication_fork_deployment": true
+  "no_production_push_publication_fork_deployment": true,
+  "record_scope": "Earlier preparation checkpoint before final user publication approval; later approval/reporting evidence is in docs/publication-approval.md. Test results retain their original classification and date."
 }

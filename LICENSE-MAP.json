@@ -182,6 +182,10 @@
       "license": "BSD-3-Clause",
       "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
     },
+    "docs/changes/2026-11-10-publication-approval.md": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
     "docs/changes/2026-11-10-release-gate-validation.md": {
       "license": "BSD-3-Clause",
       "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
@@ -219,6 +223,10 @@
       "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
     },
     "docs/licensing-and-attribution.md": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "docs/publication-approval.md": {
       "license": "BSD-3-Clause",
       "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
     },
@@ -487,8 +495,14 @@
     },
     {
       "id": "PUBLICATION-APPROVAL",
-      "status": "pending",
-      "question": "Approve exact repository name, personal/work owners, public fork visibility, author/committer identity, source manifest/archive and reporting activation before creating repositories or publishing."
+      "status": "resolved",
+      "question": "Approve exact repository name, personal/work owners, public fork visibility, author/committer identity, source manifest/archive and reporting activation before creating repositories or publishing.",
+      "resolution": "Maintainer explicitly approved the exact personal experimental publication and public work fork with the selected noreply identity. Initial source commit 141c3f7ac3940c5db893cc5b5e4c1f82a5568a36 matches the reviewed 103-file tree. Private vulnerability reporting was enabled and verified on the new empty personal repository at 2026-11-10T02:00:45+00:00 before any source push. This documentation commit records that approval; real-service deployment/integration is not approved or asserted.",
+      "evidence": [
+        "docs/publication-approval.md",
+        "docs/changes/2026-11-10-publication-approval.md",
+        "SECURITY.md"
+      ]
     }
   ]
 }

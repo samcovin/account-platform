@@ -1,9 +1,10 @@
 # Personal upstream and work fork
 
-This plan concerns an experimental source repository. No repository, remote,
-commit, fork, private-reporting setting or publication has been created by this
-preparation. Exact account names, identity, file hashes and proposed artifact are
-in the separate local approval dossier, outside this public source tree.
+The maintainer approved the personal public experimental source repository,
+private reporting before source push, and subsequent public work fork. See
+[approval evidence](publication-approval.md). This guide describes the authorized
+source-only sequence; actual remote execution results are recorded separately.
+No application/service deployment or real account operation accompanies it.
 
 ## Review before publication
 
@@ -39,7 +40,9 @@ After explicit final approval, the intended order is:
    original source attribution intact. Verify that it is a fork of the intended
    personal upstream, not an independently initialized repository.
 
-No step above is authorized to run automatically by this document.
+The maintainer explicitly authorized this source sequence. This document alone
+provides no authority for later different destinations, credentials, deployment,
+private work publication or runtime operations.
 
 ## What the work fork means
 

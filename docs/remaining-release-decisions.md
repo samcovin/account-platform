@@ -1,19 +1,19 @@
 # Experimental source release decisions — 2026-11-10 UTC
 
-The maintainer chose an experimental source release on a personal GitHub account,
-followed by a work-account fork. That authorizes preparation, not repository
-creation, a commit, push, publication, private-reporting activation or a fork. The personal
-Git author/committer identity was approved separately and is selected locally.
-Current exact gate states are in LICENSE-MAP.json.
+The maintainer approved the exact public experimental source plan, personal
+upstream, public work fork, selected identity and GitHub private reporting before
+source push at 2026-11-10T01:57:28+00:00. All six source gates have recorded resolutions;
+[approval evidence](publication-approval.md) supersedes earlier preparation-only
+statements. Actual remote execution is recorded separately after verification.
 
-| Gate | Plain-language status | What remains |
+| Gate | Resolution in plain language | Remaining operational limits |
 | --- | --- | --- |
-| OWNERSHIP-REVIEW | Resolved by maintainer statement: no outside material or known ownership restrictions; earlier generated-code permission retained | Preserve notices; revisit if new outside material or an agreement is identified. This is not independent provenance proof |
-| APP-INTEGRATION-RIGHTS | Resolved: maintainer accepts mixed BSD/AGPL source only, no bundled dependencies and deferred combined-distribution review | Review actual versions/combined-work obligations before later deployment or bundling; no license was changed |
-| SECURITY-POLICY | Resolved for experimental source scope: service execution remains disabled by default; GitHub private reporting selected | After final approval, enable and verify reporting before source push. Real-installation MFA/TLS, privacy, retention and delivery decisions remain prerequisites |
-| PHP-VALIDATION | Complete: 30 lint files, 55 PHP mock cases and 17 real local PHP/HTTP fixtures passed | Full framework/FPM/TLS and service compatibility remain untested |
-| SERVICE-VALIDATION | Resolved as the explicit experimental source-release choice, not as an integration pass | Real services, migrations, populated upgrades, database races and readable encrypted recovery remain untested; require a separately approved isolated test plan |
-| PUBLICATION-APPROVAL | Pending exact contents and personal/work destination review; personal author/committer identity selected | Confirm work owner/public-fork permission and approve the local dossier, exact repository name/contents and reporting setup before any public action; authenticated-account/name checks remain |
+| OWNERSHIP-REVIEW | Maintainer confirms no outside material or known ownership restriction | Reopen if outside inputs or restrictions are identified; this is not an independent audit |
+| APP-INTEGRATION-RIGHTS | Mixed BSD/AGPL source only, without bundled dependency implementations | Review actual versions and combined-work obligations before deployment or bundling |
+| SECURITY-POLICY | Disabled experimental source examples; private reporting selected and verified on personal upstream | Verify fork reporting separately; choose installation authentication/privacy/retention/delivery policy |
+| PHP-VALIDATION | Local PHP lint, mocks and owned loopback HTTP/SMTP fixtures pass | Full framework/FPM/TLS and service compatibility remain untested |
+| SERVICE-VALIDATION | Maintainer accepts experimental source scope with untested integrations clearly labeled | Real services, migrations, upgrades, races and encrypted recovery require separate isolated validation |
+| PUBLICATION-APPROVAL | Explicit yes to exact personal/work destinations, reviewed contents/identity, reporting and public fork | Authenticate/verify each owner and remote action; do not overwrite conflicting destinations or treat approval as completed publication |
 
 ## Choices intentionally deferred until installation
 

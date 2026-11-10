@@ -5,13 +5,13 @@ relevant guide and a record using `docs/change-template.md`. Run source checks
 and appropriate offline tests. Review the staged diff for credentials/personal
 data before committing, using a deliberately selected Git identity.
 
-The working candidate uses `feature/experimental-source-release` with a staged,
-uncommitted initial import; the explicitly approved personal identity is selected
-locally and no remote exists. Initial-import hygiene passed before identity
-selection. In a new extracted copy, run `tools/verify-handoff.py --initial-import`
-once before the first work commit, local identity/remote or real configuration. For normal development use
-the default verifier, which permits normal identities/remotes/domains and checks
-tracked/index source and available local Git objects. It never contacts remotes.
+The source history begins with the reviewed initial import followed by a separate
+approval-documentation commit. Use your own deliberately selected repository-local
+identity for new work. The one-time `tools/verify-handoff.py --initial-import` check
+was run before the first commit/identity; use default development mode thereafter.
+A new source-archive import can use initial-import mode before its own first
+commit/configuration. Default mode permits normal authors/remotes/domains and
+checks tracked/index source and all locally stored Git objects without networking.
 
 Keep `LICENSE-MAP.json` complete when adding/removing files. Respect the app's
 AGPL exception, the first-party BSD grant and all third-party notices. Do not

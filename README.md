@@ -50,11 +50,12 @@ before service use. Do not enable the flag merely to make a failing command run.
 Lab creation is separately explicit and requires reviewed cached images and an
 external pinned 0.4.0 baseline for populated upgrades; see [labs](docs/lab-validation.md).
 
-The development directory has fresh, uncommitted Git on
-`feature/experimental-source-release`, without imported history or remotes.
-The personal release identity was explicitly selected locally; no commit exists.
-If using your own extracted copy, select your own identity before committing.
-The source-only review archive excludes all Git metadata and private preparation/reference files.
+The fresh source history starts with the exact reviewed 103-file import,
+followed by a documentation record of the maintainer's publication approval.
+No recovered private Git history is included. Select your own repository-local
+identity before making future commits. Source-only review archives exclude Git
+metadata and private preparation/reference material. See
+[publication approval](docs/publication-approval.md) for the dated checkpoint.
 
 After extracting the source-only archive, enter its `account-platform` directory
 and run `git init --initial-branch=feature/source-review`, then `git add --all`,
@@ -76,4 +77,5 @@ of passing PHP validation. See [remaining decisions](docs/remaining-release-deci
 and [dependency boundaries](docs/dependency-boundaries.md).
 The [personal upstream and work fork guide](docs/github-handoff.md) explains the
 proposed sequence. The [release checklist](RELEASE_CHECKLIST.md) records actual
-open gates; preparation does not authorize creating or publishing repositories.
+gate evidence. Source publication was explicitly approved; runtime deployment
+requires separate configuration, integration review and authorization.
