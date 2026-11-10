@@ -1,0 +1,14 @@
+# SPDX-License-Identifier: BSD-3-Clause
+# Copyright (c) 2026 Sam Covin
+[Unit]
+Description=Daily cleanup of expired account-export deliveries
+
+[Timer]
+OnCalendar=*-*-* 03:17:00 UTC
+AccuracySec=1min
+RandomizedDelaySec=30min
+Persistent=true
+Unit=covin-export-cleanup.service
+
+[Install]
+WantedBy=timers.target

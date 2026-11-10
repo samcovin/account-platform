@@ -1,0 +1,133 @@
+#covin-account-admin { max-width: 1280px; }
+.covin-request-filter, .covin-request-pages { display: flex; flex-wrap: wrap; align-items: end; gap: 12px; margin: 12px 0; }
+.covin-request-filter label { display: flex; flex-direction: column; gap: 5px; }
+.covin-match-warning { border-left: 4px solid var(--color-warning); padding: 8px 12px; margin: 8px 0; overflow-wrap: anywhere; }
+.covin-match-entry { padding: 10px 0; border-bottom: 1px solid var(--color-border); }
+.covin-request-pages { align-items: center; }
+#covin-account-admin h3 { margin-top: 24px; }
+#covin-account-form { max-width: 1180px; }
+.covin-account-fields {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(180px, 1fr)) minmax(150px, 0.55fr);
+    gap: 12px;
+    margin: 10px 0 14px;
+}
+.covin-account-fields label { display: flex; flex-direction: column; gap: 5px; }
+.covin-account-fields input,
+.covin-account-fields select { width: 100%; }
+.covin-invitation-warning {
+    border-left: 4px solid var(--color-warning);
+    margin: 4px 0 14px;
+    max-width: 1050px;
+    padding: 8px 12px;
+}
+#covin-account-message { min-height: 1.5em; }
+.covin-account-heading {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    max-width: 1280px;
+}
+.covin-account-table-wrap { overflow-x: auto; }
+#covin-account-requests { min-width: 1150px; width: 100%; }
+#covin-account-requests th,
+#covin-account-requests td {
+    border-bottom: 1px solid var(--color-border);
+    padding: 9px;
+    text-align: left;
+    vertical-align: top;
+}
+.covin-account-actions { display: flex; flex-wrap: wrap; gap: 6px; }
+.covin-resend-controls { align-items: center; display: flex; flex-wrap: wrap; gap: 6px; }
+.covin-resend-controls select { min-width: 92px; }
+.covin-request-row td { border-bottom: 0; }
+.covin-history-row td {
+    background: var(--color-background-dark);
+    border-bottom: 1px solid var(--color-border);
+    padding: 0 9px 12px;
+}
+.covin-history {
+    margin: 0;
+    width: 100%;
+}
+.covin-history summary {
+    cursor: pointer;
+    font-weight: 600;
+    padding: 8px 10px;
+    width: fit-content;
+}
+.covin-history-content {
+    background: var(--color-main-background);
+    border-radius: var(--border-radius-large);
+    box-sizing: border-box;
+    margin: 0;
+    overflow-wrap: anywhere;
+    padding: 12px;
+    width: 100%;
+}
+.covin-history-content ul { margin: 0; padding-left: 20px; }
+.covin-status { font-weight: 700; text-transform: capitalize; }
+.covin-status-pending { color: var(--color-warning-text); }
+.covin-status-queued,
+.covin-status-running { color: var(--color-primary-element); }
+.covin-status-completed { color: var(--color-success); }
+.covin-status-failed,
+.covin-status-rejected { color: var(--color-error); }
+@media (max-width: 800px) {
+    .covin-account-fields { grid-template-columns: 1fr; }
+}
+@media (max-width: 1250px) {
+    #covin-account-requests { min-width: 0; }
+    #covin-account-requests thead { display: none; }
+    #covin-account-requests,
+    #covin-account-requests tbody,
+    #covin-account-requests tr,
+    #covin-account-requests td { display: block; width: 100%; }
+    #covin-account-requests tr {
+        border: 1px solid var(--color-border);
+        border-radius: var(--border-radius-large);
+        margin-bottom: 12px;
+        padding: 8px;
+    }
+    #covin-account-requests td {
+        border: 0;
+        display: grid;
+        gap: 10px;
+        grid-template-columns: minmax(110px, 28%) 1fr;
+        padding: 6px;
+    }
+    #covin-account-requests td::before { font-weight: 700; }
+    #covin-account-requests td:nth-child(1)::before { content: 'Name'; }
+    #covin-account-requests td:nth-child(2)::before { content: 'Username'; }
+    #covin-account-requests td:nth-child(3)::before { content: 'Contact email'; }
+    #covin-account-requests td:nth-child(4)::before { content: 'Invitation'; }
+    #covin-account-requests td:nth-child(5)::before { content: 'Status'; }
+    #covin-account-requests td:nth-child(6)::before { content: 'Updated'; }
+    #covin-account-requests td:nth-child(7)::before { content: 'Result'; }
+    #covin-account-requests td:nth-child(8)::before { content: 'Actions'; }
+    #covin-account-requests .covin-account-actions {
+        align-items: flex-start;
+        display: grid;
+        grid-template-columns: minmax(110px, 28%) 1fr;
+    }
+    #covin-account-requests .covin-account-actions::before { grid-row: 1 / span 4; }
+    #covin-account-requests .covin-account-actions button { justify-self: start; }
+    #covin-account-requests .covin-request-row {
+        border-bottom: 0;
+        border-radius: var(--border-radius-large) var(--border-radius-large) 0 0;
+        margin-bottom: 0;
+        padding-bottom: 2px;
+    }
+    #covin-account-requests .covin-history-row {
+        border-radius: 0 0 var(--border-radius-large) var(--border-radius-large);
+        border-top: 0;
+        margin-bottom: 12px;
+        padding-top: 0;
+    }
+    #covin-account-requests .covin-history-row td {
+        background: var(--color-background-dark);
+        display: block;
+        padding: 0;
+    }
+    #covin-account-requests .covin-history-row td::before { content: none; }
+}

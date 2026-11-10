@@ -1,0 +1,15 @@
+# SPDX-License-Identifier: BSD-3-Clause
+# Copyright (c) 2026 Sam Covin
+[Unit]
+Description=Check the account approval queue
+
+[Timer]
+OnBootSec=2min
+OnUnitActiveSec=1min
+AccuracySec=5s
+RandomizedDelaySec=10s
+Persistent=true
+Unit=covin-account-worker.service
+
+[Install]
+WantedBy=timers.target

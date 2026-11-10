@@ -1,0 +1,67 @@
+# SPDX-License-Identifier: BSD-3-Clause
+# Copyright (c) 2026 Sam Covin
+  # Prevent compliant search and AI indexing.
+  add_header X-Robots-Tag
+    "noindex, nofollow, noarchive, nosnippet, noimageindex, noai, noimageai"
+    always;
+
+  # Account Services landing page
+  location = / {
+    root /web/example.test;
+    rewrite ^ /index.html break;
+  }
+
+  location = /robots.txt {
+    root /web/example.test;
+  }
+
+  location = /ai.txt {
+    root /web/example.test;
+  }
+
+  location = /llms.txt {
+    root /web/example.test;
+  }
+
+  location = /cat.txt {
+    root /web/example.test;
+    default_type text/plain;
+  }
+
+  location = /help/app-passwords {
+    return 301 /help/app-passwords/;
+  }
+
+  location = /help/app-passwords/ {
+    root /web/example.test;
+    rewrite ^ /help/app-passwords/index.html break;
+  }
+
+  location = /request-account {
+    return 301 /request-account/;
+  }
+
+  location = /request-account/ {
+    root /web/example.test;
+    rewrite ^ /request-account/index.html break;
+  }
+
+  # The signing secret is readable by PHP only and must never be served.
+  location = /request-account/.ingress-secret {
+    return 404;
+  }
+
+  location = /request-account/submit {
+    if ($request_method != POST) {
+      return 405;
+    }
+
+    limit_req zone=covin_account_request burst=3 nodelay;
+    client_max_body_size 16k;
+
+    include fastcgi_params;
+    fastcgi_pass php-fpm-mailcow:9001;
+    fastcgi_param SCRIPT_FILENAME
+      /web/example.test/request-account/submit.php;
+    fastcgi_read_timeout 15s;
+  }

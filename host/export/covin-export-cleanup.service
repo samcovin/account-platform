@@ -1,0 +1,19 @@
+# SPDX-License-Identifier: BSD-3-Clause
+# Copyright (c) 2026 Sam Covin
+[Unit]
+Description=Clean expired account-export deliveries
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Environment=ACCOUNT_PLATFORM_RUNTIME_REVIEWED=0
+Type=oneshot
+User=root
+Group=root
+UMask=0077
+ExecStart=/usr/local/libexec/covin-export/covin-export-cleanup.py
+TimeoutStartSec=30min
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=true

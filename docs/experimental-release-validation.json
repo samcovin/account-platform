@@ -1,0 +1,68 @@
+{
+  "date_utc": "2026-11-10T01:43:09+00:00",
+  "status": "experimental source prepared for review; publication not approved",
+  "scope": "Documentation/source-only hygiene updates; no app, host or public runtime code changed",
+  "source_files": 103,
+  "tests_run_this_preparation": {
+    "date_utc": "2026-11-10T01:36:56+00:00",
+    "suite": "tools except unchanged PHP/HTTP fixtures",
+    "tests": 55,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": true,
+    "classification": "Offline mocks and local filesystem/Git fixtures; service commands blocked"
+  },
+  "source_checks": {
+    "syntax_total": 35,
+    "php_lint": 30,
+    "bash_javascript_syntax": 5,
+    "php_runtime": "Previously signature-verified temporary PHP 8.3.36 CLI, -n; not installed system-wide or bundled",
+    "python_compiled": 21,
+    "xml_svg_parsed": 2,
+    "broken_local_document_links": 0,
+    "git_hygiene_modes": [
+      "initial import passed before explicit identity selection",
+      "development after selected identity; includes index and stored Git objects"
+    ],
+    "public_checker": "passed source/license hygiene; --release intentionally exits 2 for pending gates",
+    "staged_diff": "reviewed for whitespace errors, credentials, personal and operational data"
+  },
+  "prior_runtime_evidence": {
+    "record": "docs/validation-results.json",
+    "date_utc": "2026-11-10T01:22:37+00:00",
+    "python_cases": 166,
+    "php_mock_cases": 55,
+    "php_lint_files": 30,
+    "offline_systemd_units": 4,
+    "classification": "Retained earlier evidence for unchanged runtime source; not rerun or recast as real-service integration"
+  },
+  "preservation": {
+    "license_pins_unchanged": true,
+    "existing_file_license_assignments_unchanged": 99,
+    "app_files_bytes_modes_unchanged": 26,
+    "host_public_files_bytes_modes_unchanged": 37,
+    "original_repository_saved_archives_and_older_references": "verified unchanged separately"
+  },
+  "maintainer_decision_scope": "Ownership statement, disabled experimental source policy, private-reporting plan and source-only release choice are maintainer decisions, not passed deployment tests",
+  "pending_release_gates": [
+    "PUBLICATION-APPROVAL"
+  ],
+  "publication_prerequisites": [
+    "Review exact file manifest/tree and archive hash",
+    "Confirm work owner/public-fork permission and approve exact personal/work repository names",
+    "Verify the explicitly selected personal author/committer remains exact before commit",
+    "Explicit final approval before creating any public repository, committing or pushing",
+    "Authenticate and recheck actual account permissions/name collision",
+    "After final approval, enable and verify private vulnerability reporting before first source push"
+  ],
+  "not_tested": [
+    "Real Nextcloud/Mailcow/Authentik/MariaDB/Dovecot/SOGo integrations",
+    "Framework/FPM/Nginx/TLS/proxy/browser behavior",
+    "Real lab installation/migrations, populated 0.4.0 upgrade and database races",
+    "Readable encrypted recovery and E2EE completeness",
+    "Actual service/account/mail/delivery/cleanup operations",
+    "GitHub authenticated permissions, private-name collision, reporting activation and work-fork policy"
+  ],
+  "no_production_push_publication_fork_deployment": true
+}

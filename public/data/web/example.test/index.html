@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#071426">
+  <title>Account Services</title>
+  <style>
+    :root {
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system,
+        BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: #f7fbff;
+      background: #071426;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100svh;
+      margin: 0;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 20% 15%, #1769aa 0, transparent 38%),
+        radial-gradient(circle at 85% 85%, #164a73 0, transparent 33%),
+        linear-gradient(145deg, #071426 0%, #0b2f4d 55%, #071a2c 100%);
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      border-radius: 50%;
+      background: rgb(255 255 255 / 8%);
+      box-shadow: inset 0 0 30px rgb(255 255 255 / 8%);
+      pointer-events: none;
+    }
+
+    body::before {
+      width: 18rem;
+      height: 18rem;
+      top: -8rem;
+      right: -5rem;
+    }
+
+    body::after {
+      width: 10rem;
+      height: 10rem;
+      bottom: -4rem;
+      left: -3rem;
+    }
+
+    main {
+      width: min(92vw, 34rem);
+      padding: clamp(2rem, 6vw, 3.5rem);
+      text-align: center;
+      border: 1px solid rgb(255 255 255 / 18%);
+      border-radius: 1.5rem;
+      background: rgb(6 22 38 / 74%);
+      box-shadow: 0 2rem 5rem rgb(0 0 0 / 38%);
+      backdrop-filter: blur(14px);
+    }
+
+    .mark {
+      width: 4.5rem;
+      height: 4.5rem;
+      margin: 0 auto 1.5rem;
+      display: grid;
+      place-items: center;
+      border-radius: 1.25rem;
+      background: linear-gradient(145deg, #52b8ff, #1471b8);
+      box-shadow: 0 1rem 2.5rem rgb(25 135 210 / 35%);
+      font-size: 2rem;
+      font-weight: 750;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2rem, 7vw, 3rem);
+      line-height: 1.05;
+      letter-spacing: -0.04em;
+    }
+
+    p {
+      margin: 1rem auto 2rem;
+      max-width: 27rem;
+      color: #c9dfef;
+      font-size: 1.05rem;
+      line-height: 1.6;
+    }
+
+    .signin {
+      display: block;
+      width: 100%;
+      padding: 1rem 1.25rem;
+      border-radius: 0.85rem;
+      color: #061522;
+      background: #f5fbff;
+      box-shadow: 0 0.75rem 2rem rgb(0 0 0 / 25%);
+      text-decoration: none;
+      font-size: 1.1rem;
+      font-weight: 750;
+      transition: transform 150ms ease, background 150ms ease;
+    }
+
+    .signin:hover {
+      transform: translateY(-2px);
+      background: #ffffff;
+    }
+
+    .signin:focus-visible,
+    .emergency:focus-visible {
+      outline: 3px solid #72c7ff;
+      outline-offset: 4px;
+    }
+
+    .emergency {
+      position: fixed;
+      left: 50%;
+      bottom: 1.1rem;
+      translate: -50% 0;
+      padding: 0.5rem 0.8rem;
+      color: rgb(255 255 255 / 28%);
+      text-decoration: none;
+      font-family: Georgia, serif;
+      font-size: 1.05rem;
+      transition: color 150ms ease;
+    }
+
+    .emergency:hover {
+      color: rgb(255 255 255 / 75%);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .signin,
+      .emergency {
+        transition: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="mark" aria-hidden="true">C</div>
+    <h1>Account Services</h1>
+    <p>Email, cloud storage, calendars, and communication through one secure account.</p>
+    <a class="signin" href="/apps/user_oidc/login/1?redirectUrl=%2Fapps%2Ffiles%2Ffiles">Sign in</a>
+    <a class="webmail" href="https://box.example.test" style="display:block;width:100%;margin-top:.8rem;padding:.9rem 1.25rem;border:1px solid rgb(255 255 255 / 30%);border-radius:.85rem;color:#f5fbff;background:rgb(255 255 255 / 8%);text-decoration:none;font-size:1.05rem;font-weight:700">Check your email</a>
+    <a class="webmail" href="/request-account/" style="display:block;width:100%;margin-top:.8rem;padding:.9rem 1.25rem;border:1px solid rgb(255 255 255 / 30%);border-radius:.85rem;color:#f5fbff;background:rgb(255 255 255 / 8%);text-decoration:none;font-size:1.05rem;font-weight:700">Request an account</a>
+    <a href="/help/app-passwords/" style="display:inline-block;margin-top:1.25rem;color:#c9dfef;text-underline-offset:.2rem">Set up an email app</a>
+  </main>
+
+  <a
+    class="emergency"
+    href="/login?direct=1"
+    aria-label="Alternate sign in"
+  >π</a>
+</body>
+</html>

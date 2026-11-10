@@ -1,0 +1,548 @@
+#!/usr/bin/env bash
+# SPDX-License-Identifier: BSD-3-Clause
+# Copyright (c) 2026 Sam Covin
+# account approval backend 0.3.0 candidate (closure guard required)
+set -Eeuo pipefail
+umask 077
+
+if [[ ${ACCOUNT_PLATFORM_RUNTIME_REVIEWED:-0} != 1 ]]; then
+  echo 'STOP: review service targets and policy, then explicitly set ACCOUNT_PLATFORM_RUNTIME_REVIEWED=1.' >&2
+  exit 1
+fi
+
+DOMAIN='example.test'
+MAILCOW_DIR='/opt/mailcow-dockerized'
+AUTHENTIK_DIR='/opt/authentik'
+MAILCOW_HOST='box.example.test'
+QUOTA_MIB=5120
+MODE=${1:---dry-run}
+INVITATION_DAYS=${COVIN_APPROVE_INVITATION_DAYS:-14}
+
+if [[ $EUID -ne 0 ]]; then
+  echo "Run this command with sudo."
+  exit 1
+fi
+
+case "$MODE" in
+  --dry-run|--commit|--worker-dry-run|--worker-commit|--worker-resend) ;;
+  *)
+    echo "Usage: sudo covin-approve-account [--dry-run|--commit|--worker-dry-run|--worker-commit|--worker-resend]"
+    exit 1
+    ;;
+esac
+
+for COMMAND in curl docker jq openssl; do
+  command -v "$COMMAND" >/dev/null || {
+    echo "STOP: required command missing: $COMMAND"
+    exit 1
+  }
+done
+
+if [[ $MODE == --worker-* ]]; then
+  USERNAME=${COVIN_APPROVE_USERNAME:-}
+  DISPLAY_NAME=${COVIN_APPROVE_DISPLAY_NAME:-}
+  CONTACT_EMAIL=${COVIN_APPROVE_CONTACT_EMAIL:-}
+
+  if [[ -z $USERNAME || -z $DISPLAY_NAME || -z $CONTACT_EMAIL ]]; then
+    echo "STOP: worker account fields are missing."
+    exit 1
+  fi
+
+  if [[ ( $MODE == '--worker-commit' || $MODE == '--worker-resend' ) &&
+        ${COVIN_WORKER_CONFIRM:-} != 'APPROVE' ]]; then
+    echo "STOP: worker commit confirmation is missing."
+    exit 1
+  fi
+else
+  read -r -p 'Approved username: ' USERNAME
+  read -r -p 'Display name: ' DISPLAY_NAME
+  read -r -p 'Applicant contact email: ' CONTACT_EMAIL
+fi
+
+case "$INVITATION_DAYS" in
+  7|14|30) ;;
+  *)
+    echo "STOP: invitation duration must be 7, 14, or 30 days."
+    exit 1
+    ;;
+esac
+
+IS_RESEND=0
+if [[ $MODE == '--worker-resend' ]]; then
+  IS_RESEND=1
+fi
+
+USERNAME=${USERNAME,,}
+MAILBOX="${USERNAME}@${DOMAIN}"
+
+if (( ${#USERNAME} < 2 || ${#USERNAME} > 64 )) ||
+   [[ ! $USERNAME =~ ^[a-z0-9][a-z0-9._-]*[a-z0-9]$ ]]; then
+  echo "STOP: username must be 2–64 lowercase letters, numbers, dots, underscores, or hyphens."
+  exit 1
+fi
+
+case "$USERNAME" in
+  admin|administrator|abuse|postmaster|hostmaster|webmaster|security|\
+  root|mailer-daemon|requests|support|billing|noreply|no-reply)
+    echo "STOP: that username is reserved."
+    exit 1
+    ;;
+esac
+
+if (( ${#DISPLAY_NAME} < 1 || ${#DISPLAY_NAME} > 100 )) ||
+   [[ $DISPLAY_NAME == *$'\n'* || $DISPLAY_NAME == *$'\r'* ]]; then
+  echo "STOP: invalid display name."
+  exit 1
+fi
+
+if (( ${#CONTACT_EMAIL} > 254 )) ||
+   [[ ! $CONTACT_EMAIL =~ ^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,63}$ ]]; then
+  echo "STOP: invalid contact email."
+  exit 1
+fi
+
+TMPDIR=$(mktemp -d /tmp/covin-approval.XXXXXX)
+EXECUTION_TOKEN=''
+EXECUTION_STARTED=0
+
+guard_occ() {
+  docker exec -u www-data nextcloud-app \
+    php occ covin-account:closure-guard "$@" \
+    --no-ansi --no-interaction --no-warnings
+}
+
+cleanup_approval() {
+  local exit_status=$?
+  trap - EXIT
+  if [[ $EXECUTION_STARTED = 1 && $exit_status -ne 0 ]]; then
+    echo "STOP: failed approval remains reserved; protected diagnostic directory: $TMPDIR" >&2
+    exit "$exit_status"
+  fi
+  if [[ -n $EXECUTION_TOKEN ]]; then
+    if ! COVIN_EXECUTION_TOKEN="$EXECUTION_TOKEN" \
+      docker exec -u www-data -e COVIN_EXECUTION_TOKEN nextcloud-app \
+      php occ covin-account:closure-guard end-execution "$USERNAME" \
+      --commit --no-ansi --no-interaction --no-warnings \
+      >"$TMPDIR/guard-release.json" 2>&1; then
+      echo 'STOP: approver execution reservation could not be released; operator review required.' >&2
+      echo "Protected diagnostic directory retained: $TMPDIR" >&2
+      exit 1
+    fi
+  fi
+  rm -rf -- "$TMPDIR"
+  exit "$exit_status"
+}
+trap cleanup_approval EXIT
+trap 'exit 129' HUP
+trap 'exit 130' INT
+trap 'exit 143' TERM
+
+# Read-only modes check policy without creating an execution reservation.
+guard_occ inspect "$USERNAME" >"$TMPDIR/guard-inspect.json"
+if ! jq -e '
+  .status == "guard-inspection" and .state == "open"
+  and .blocked == false and .execution_reserved == false
+' "$TMPDIR/guard-inspect.json" >/dev/null; then
+  echo 'STOP: username is reserved or an approver execution is already active.' >&2
+  exit 1
+fi
+
+cd "$MAILCOW_DIR"
+. ./mailcow.conf
+
+mailcow_request() {
+  local method=$1
+  local path=$2
+  local output=$3
+  local payload=${4:-}
+
+  if [[ -n $payload ]]; then
+    {
+      printf 'silent\n'
+      printf 'show-error\n'
+      printf 'fail\n'
+      printf 'header = "X-API-Key: %s"\n' "$API_KEY"
+      printf 'resolve = "%s:443:127.0.0.1"\n' "$MAILCOW_HOST"
+    } |
+    curl --config - \
+      --request "$method" \
+      --header 'Content-Type: application/json' \
+      --data-binary "@$payload" \
+      --output "$output" \
+      "https://${MAILCOW_HOST}${path}"
+  else
+    {
+      printf 'silent\n'
+      printf 'show-error\n'
+      printf 'fail\n'
+      printf 'header = "X-API-Key: %s"\n' "$API_KEY"
+      printf 'resolve = "%s:443:127.0.0.1"\n' "$MAILCOW_HOST"
+    } |
+    curl --config - \
+      --request "$method" \
+      --output "$output" \
+      "https://${MAILCOW_HOST}${path}"
+  fi
+}
+
+echo
+echo "===== APPROVAL PREFLIGHT ====="
+echo "Mode:          $MODE"
+echo "Username:      $USERNAME"
+echo "Mailbox:       $MAILBOX"
+echo "Display name:  $DISPLAY_NAME"
+echo "Contact email: $CONTACT_EMAIL"
+echo "Mailbox quota: 5 GiB"
+echo "Invitation:    single-use, expires in $INVITATION_DAYS days"
+
+MAILBOX_LIST="$TMPDIR/mailboxes.json"
+mailcow_request GET '/api/v1/get/mailbox/all' "$MAILBOX_LIST"
+
+MAILBOX_EXISTS=0
+if jq -e --arg mailbox "$MAILBOX" \
+  'any(.[]?; .username == $mailbox)' \
+  "$MAILBOX_LIST" >/dev/null; then
+  MAILBOX_EXISTS=1
+fi
+
+if [[ $IS_RESEND = 1 && $MAILBOX_EXISTS = 0 ]]; then
+  echo "STOP: the Mailcow mailbox does not exist."
+  exit 1
+fi
+
+if [[ $IS_RESEND = 0 && $MAILBOX_EXISTS = 1 ]]; then
+  echo "STOP: Mailcow mailbox already exists."
+  exit 1
+fi
+
+AK_CHECK=$(
+  cd "$AUTHENTIK_DIR"
+  docker compose exec -T \
+    -e APPROVE_USERNAME="$USERNAME" \
+    server ak shell -c '
+import os
+from authentik.core.models import User
+username = os.environ["APPROVE_USERNAME"]
+print("AUTH_USER_EXISTS={}".format(
+    User.objects.filter(username=username).exists()
+))
+' 2>/dev/null
+)
+
+AUTH_USER_EXISTS=0
+if grep -q '^AUTH_USER_EXISTS=True$' <<<"$AK_CHECK"; then
+  AUTH_USER_EXISTS=1
+fi
+
+if [[ $IS_RESEND = 1 && $AUTH_USER_EXISTS = 1 ]]; then
+  echo "STOP: enrollment is already complete; the Authentik user exists."
+  exit 1
+fi
+
+if [[ $IS_RESEND = 0 && $AUTH_USER_EXISTS = 1 ]]; then
+  echo "STOP: Authentik user already exists."
+  exit 1
+fi
+
+if [[ $IS_RESEND = 1 ]]; then
+  echo "Mailcow mailbox exists: yes"
+  echo "Authentik enrollment pending: yes"
+else
+  echo "Mailcow username available: yes"
+  echo "Authentik username available: yes"
+fi
+
+if [[ $MODE == "--dry-run" || $MODE == "--worker-dry-run" ]]; then
+  echo
+  echo "DRY_RUN_COMPLETE"
+  echo "No mailbox, identity, invitation, or email was created."
+  exit 0
+fi
+
+echo
+if [[ $MODE != "--worker-commit" && $MODE != "--worker-resend" ]]; then
+  read -r -p "Type APPROVE to create this account: " CONFIRM
+
+  if [[ $CONFIRM != "APPROVE" ]]; then
+    echo "Approval cancelled."
+    exit 1
+  fi
+else
+  echo "Worker commit authorization accepted."
+fi
+
+# The atomic reservation must succeed BEFORE any mailbox/identity/invitation writes.
+# A failed/crashed execution remains reserved, never auto-expires into permission.
+EXECUTION_STARTED=1
+guard_occ begin-execution "$USERNAME" --commit >"$TMPDIR/guard-token"
+EXECUTION_TOKEN=$(tr -d '\r\n' <"$TMPDIR/guard-token")
+if [[ ! $EXECUTION_TOKEN =~ ^[a-f0-9]{48}$ ]]; then
+  echo 'STOP: invalid execution reservation result; operator review required.' >&2
+  exit 1
+fi
+
+if [[ $IS_RESEND = 0 ]]; then
+  INTERNAL_PASSWORD=""
+  CREATE_PAYLOAD="$TMPDIR/create-mailbox.json"
+  CREATE_RESULT="$TMPDIR/create-result.json"
+
+  jq -n \
+    --arg domain "$DOMAIN" \
+    --arg local_part "$USERNAME" \
+    --arg name "$DISPLAY_NAME" \
+    --arg password "$INTERNAL_PASSWORD" \
+    --argjson quota "$QUOTA_MIB" \
+    '{
+      active: true,
+      domain: $domain,
+      local_part: $local_part,
+      name: $name,
+      authsource: "generic-oidc",
+      password: $password,
+      password2: $password,
+      quota: $quota,
+      force_pw_update: false,
+      force_tfa: false,
+      tls_enforce_in: false,
+      tls_enforce_out: false
+    }' > "$CREATE_PAYLOAD"
+
+  echo
+  echo "===== CREATING MAILBOX ====="
+
+  mailcow_request \
+    POST \
+    '/api/v1/add/mailbox' \
+    "$CREATE_RESULT" \
+    "$CREATE_PAYLOAD"
+
+  if ! jq -e '
+    (if type == "array" then . else [.] end)
+    | any(.type == "success")
+  ' "$CREATE_RESULT" >/dev/null; then
+    echo "STOP: Mailcow rejected mailbox creation."
+    jq 'del(.. | .password?, .. | .password2?)' "$CREATE_RESULT"
+    exit 1
+  fi
+
+  unset INTERNAL_PASSWORD
+  rm -f "$CREATE_PAYLOAD"
+
+  echo "Mailbox created: $MAILBOX"
+else
+  echo
+  echo "===== REPLACING ENROLLMENT INVITATION ====="
+fi
+
+INVITATION_NAME="covin-enrollment-$(date -u +%Y%m%d%H%M%S)-$(openssl rand -hex 4)"
+
+echo
+echo "===== CREATING AUTHENTIK INVITATION ====="
+
+if ! AK_CREATE=$(
+  cd "$AUTHENTIK_DIR"
+  docker compose exec -T \
+    -e APPROVE_USERNAME="$USERNAME" \
+    -e APPROVE_NAME="$DISPLAY_NAME" \
+    -e APPROVE_MAILBOX="$MAILBOX" \
+    -e APPROVE_CONTACT="$CONTACT_EMAIL" \
+    -e APPROVE_INVITATION_DAYS="$INVITATION_DAYS" \
+    -e APPROVE_REPLACE_INVITATION="$IS_RESEND" \
+    -e INVITATION_NAME="$INVITATION_NAME" \
+    server ak shell -c '
+import os
+from datetime import timedelta
+from django.db import transaction
+from django.utils import timezone
+from authentik.core.models import User
+from authentik.flows.models import Flow
+from authentik.stages.invitation.models import Invitation
+
+username = os.environ["APPROVE_USERNAME"]
+invitation_days = int(os.environ["APPROVE_INVITATION_DAYS"])
+replace_invitation = os.environ["APPROVE_REPLACE_INVITATION"] == "1"
+
+if invitation_days not in (7, 14, 30):
+    raise RuntimeError("Invalid invitation duration")
+
+if User.objects.filter(username=username).exists():
+    raise RuntimeError("User unexpectedly already exists")
+
+with transaction.atomic():
+    existing = Invitation.objects.filter(
+        fixed_data__username=username
+    )
+
+    if replace_invitation:
+        existing.delete()
+    elif existing.exists():
+        raise RuntimeError("Invitation unexpectedly already exists")
+
+    flow = Flow.objects.get(slug="covin-account-enrollment")
+    creator = User.objects.get(username="akadmin")
+
+    invitation = Invitation.objects.create(
+        name=os.environ["INVITATION_NAME"],
+        flow=flow,
+        single_use=True,
+        expiring=True,
+        expires=timezone.now() + timedelta(days=invitation_days),
+        created_by=creator,
+        fixed_data={
+            "username": username,
+            "name": os.environ["APPROVE_NAME"],
+            "email": os.environ["APPROVE_MAILBOX"],
+            "attributes": {
+                "nextcloud_user_id": username,
+                "contact_email": os.environ["APPROVE_CONTACT"],
+            },
+        },
+    )
+
+print(
+    "INVITE_URL=https://auth.example.test/if/flow/"
+    + flow.slug
+    + "/?itoken="
+    + str(invitation.pk)
+)
+' 2>/dev/null
+); then
+  echo "ERROR: Authentik invitation creation failed."
+  echo "The mailbox exists and requires manual review: $MAILBOX"
+  exit 1
+fi
+
+INVITE_URL=$(
+  sed -n 's/^INVITE_URL=//p' <<<"$AK_CREATE" |
+  tail -1
+)
+
+if [[ $INVITE_URL != https://auth.example.test/if/flow/* ]]; then
+  echo "ERROR: invitation was created but its URL could not be captured."
+  echo "Mailbox requiring review: $MAILBOX"
+  echo "Invitation name: $INVITATION_NAME"
+  exit 1
+fi
+
+echo "Invitation created securely."
+
+echo
+echo "===== SENDING ENROLLMENT EMAIL ====="
+
+if [[ $IS_RESEND = 1 ]]; then
+  EMAIL_SUBJECT='Replacement link to create your account'
+  EMAIL_INTRO='Here is your replacement account enrollment link.'
+else
+  EMAIL_SUBJECT='Create your account'
+  EMAIL_INTRO='Your account request was approved.'
+fi
+
+if ! {
+  printf 'From: Account Services <requests@example.test>\n'
+  printf 'To: %s\n' "$CONTACT_EMAIL"
+  printf 'Reply-To: requests@example.test\n'
+  printf 'Subject: %s\n' "$EMAIL_SUBJECT"
+  printf 'Date: %s\n' "$(date -R)"
+  printf 'Message-ID: <enrollment-%s@example.test>\n' \
+    "$(openssl rand -hex 12)"
+  printf 'Content-Type: text/plain; charset=UTF-8\n'
+  printf '\n'
+  printf 'Hello %s,\n\n' "$DISPLAY_NAME"
+  printf '%s\n\n' "$EMAIL_INTRO"
+  printf 'Your new email address will be:\n%s\n\n' "$MAILBOX"
+  printf 'Use this single-use link to create your password and finish setup:\n'
+  printf '%s\n\n' "$INVITE_URL"
+  printf 'The link expires in %s days.\n\n' "$INVITATION_DAYS"
+  printf 'This link is single-use. Open it in the browser and on the device '
+  printf 'where you intend to finish enrollment. Once opened, it cannot be '
+  printf 'moved to another browser or device.\n\n'
+  printf 'You may also set up extra sign-in protection during enrollment. '
+  printf 'It can be skipped and added later from Account Settings.\n\n'
+  printf 'Do not reply with or send anyone your password or recovery codes.\n\n'
+  printf 'If this message was placed in spam or junk, please select '
+  printf '"Report not spam".\n\n'
+  printf 'Account Services\n'
+} |
+docker exec -i \
+  mailcowdockerized-postfix-mailcow-1 \
+  /usr/sbin/sendmail -t -i; then
+  echo "ERROR: mailbox and invitation exist, but email submission failed."
+  echo "Invitation name: $INVITATION_NAME"
+  exit 1
+fi
+
+unset INVITE_URL
+
+if [[ $IS_RESEND = 1 ]]; then
+  logger -t covin-account-approval \
+    "resent username=$USERNAME mailbox=$MAILBOX days=$INVITATION_DAYS"
+
+  echo
+  echo "===== INVITATION RESEND COMPLETE ====="
+  echo "Mailbox: $MAILBOX"
+  echo "Replacement invitation sent to: $CONTACT_EMAIL"
+  echo "Invitation expires in: $INVITATION_DAYS days"
+  echo "RESEND_COMPLETE"
+  exit 0
+fi
+
+# BEGIN COVIN WELCOME EMAIL
+echo
+echo "===== SENDING WELCOME EMAIL ====="
+
+WELCOME_STATUS='sent'
+
+if ! {
+  printf 'From: Account Services <requests@example.test>\n'
+  printf 'To: %s\n' "$MAILBOX"
+  printf 'Reply-To: requests@example.test\n'
+  printf 'Subject: Welcome to Account Services\n'
+  printf 'Date: %s\n' "$(date -R)"
+  printf 'Message-ID: <welcome-%s@example.test>\n' \
+    "$(openssl rand -hex 12)"
+  printf 'Content-Type: text/plain; charset=UTF-8\n'
+  printf '\n'
+  printf 'Hello %s,\n\n' "$DISPLAY_NAME"
+  printf 'Welcome to Account Services. Your account is ready.\n\n'
+  printf 'Your email address:\n%s\n\n' "$MAILBOX"
+  printf 'Cloud storage, files, calendars, and services:\n'
+  printf 'https://example.test/\n\n'
+  printf 'Webmail:\n'
+  printf 'https://box.example.test/\n\n'
+  printf 'Set up an email application or device:\n'
+  printf 'https://example.test/help/app-passwords/\n\n'
+  printf 'Email applications use a separate Mailcow app password. '
+  printf 'Do not enter your normal Authentik password into an email app.\n\n'
+  printf 'Extra sign-in protection is optional. You can add an '
+  printf 'authenticator later from your Authentik account settings:\n'
+  printf 'https://auth.example.test/if/user/\n\n'
+  printf 'If you enable extra sign-in protection, save your recovery '
+  printf 'codes somewhere safe.\n\n'
+  printf 'Your starting storage limits are:\n'
+  printf '  Cloud storage: 10 GB\n'
+  printf '  Email storage: 5 GiB\n\n'
+  printf 'Additional storage can be requested if needed.\n\n'
+  printf 'Never send anyone your password, app passwords, MFA codes, '
+  printf 'or recovery codes.\n\n'
+  printf 'For help, reply to this message or email requests@example.test.\n\n'
+  printf 'Account Services\n'
+} |
+docker exec -i \
+  mailcowdockerized-postfix-mailcow-1 \
+  /usr/sbin/sendmail -t -i; then
+  WELCOME_STATUS='failed'
+  echo "WARNING: account was approved, but welcome email submission failed"
+fi
+# END COVIN WELCOME EMAIL
+
+logger -t covin-account-approval \
+  "approved username=$USERNAME mailbox=$MAILBOX"
+
+echo
+echo "===== APPROVAL COMPLETE ====="
+echo "Mailbox: $MAILBOX"
+echo "Invitation sent to: $CONTACT_EMAIL"
+echo "Welcome email: $WELCOME_STATUS"
+echo "Mailbox quota: 5 GiB"
+echo "Nextcloud quota after first login: 10 GB"
+echo "APPROVAL_COMPLETE"

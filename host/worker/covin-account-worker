@@ -1,0 +1,161 @@
+#!/usr/bin/env bash
+# SPDX-License-Identifier: BSD-3-Clause
+# Copyright (c) 2026 Sam Covin
+# account queue worker 0.2.0
+set -Eeuo pipefail
+umask 077
+
+if [[ ${ACCOUNT_PLATFORM_RUNTIME_REVIEWED:-0} != 1 ]]; then
+  echo 'STOP: review service targets and policy, then explicitly set ACCOUNT_PLATFORM_RUNTIME_REVIEWED=1.' >&2
+  exit 1
+fi
+
+APPROVER='/usr/local/sbin/covin-approve-account'
+LOCK_FILE='/run/lock/covin-account-worker.lock'
+DOMAIN='example.test'
+
+exec 9>"$LOCK_FILE"
+
+if ! flock -n 9; then
+  echo "Another account worker is already running."
+  exit 0
+fi
+
+TMPDIR=$(mktemp -d /tmp/covin-account-worker.XXXXXX)
+trap 'rm -rf "$TMPDIR"' EXIT
+
+APPROVAL_LOG="$TMPDIR/approval.log"
+
+run_occ() {
+  docker exec -u www-data nextcloud-app \
+    php occ "$@" \
+    --no-ansi \
+    --no-interaction \
+    --no-warnings
+}
+
+echo "Checking the account approval queue."
+
+CLAIM_JSON=$(run_occ covin-account:claim)
+
+if ! jq -e . >/dev/null 2>&1 <<<"$CLAIM_JSON"; then
+  echo "ERROR: claim command returned invalid JSON."
+  exit 1
+fi
+
+if jq -e '.job == null' >/dev/null <<<"$CLAIM_JSON"; then
+  echo "No queued account request."
+  exit 0
+fi
+
+if ! jq -e '
+  (.job | type == "object")
+  and (.job.id | type == "number")
+  and (.job.displayName | type == "string")
+  and (.job.username | type == "string")
+  and (.job.contactEmail | type == "string")
+  and (.job.invitationDays | type == "number")
+  and (.job.jobType | type == "string")
+  and (.job.mailbox | type == "string")
+  and (.job.claimToken | type == "string")
+' >/dev/null <<<"$CLAIM_JSON"; then
+  echo "ERROR: claimed job has an invalid structure."
+  exit 1
+fi
+
+REQUEST_ID=$(jq -er '.job.id | tostring' <<<"$CLAIM_JSON")
+DISPLAY_NAME=$(jq -er '.job.displayName' <<<"$CLAIM_JSON")
+USERNAME=$(jq -er '.job.username' <<<"$CLAIM_JSON")
+CONTACT_EMAIL=$(jq -er '.job.contactEmail' <<<"$CLAIM_JSON")
+INVITATION_DAYS=$(jq -er '.job.invitationDays | tostring' <<<"$CLAIM_JSON")
+JOB_TYPE=$(jq -er '.job.jobType' <<<"$CLAIM_JSON")
+JOB_MAILBOX=$(jq -er '.job.mailbox' <<<"$CLAIM_JSON")
+CLAIM_TOKEN=$(jq -er '.job.claimToken' <<<"$CLAIM_JSON")
+
+if [[ ! $REQUEST_ID =~ ^[1-9][0-9]*$ ]] ||
+   [[ ! $CLAIM_TOKEN =~ ^[a-f0-9]{48}$ ]]; then
+  echo "ERROR: claimed job has an invalid ID or token."
+  exit 1
+fi
+
+case "$INVITATION_DAYS" in
+  7|14|30) ;;
+  *)
+    echo "ERROR: claimed job has an invalid invitation duration."
+    exit 1
+    ;;
+esac
+
+case "$JOB_TYPE" in
+  provision|resend) ;;
+  *)
+    echo "ERROR: claimed job has an invalid job type."
+    exit 1
+    ;;
+esac
+
+MAILBOX="${USERNAME}@${DOMAIN}"
+
+if [[ $JOB_TYPE == 'resend' && $JOB_MAILBOX != "$MAILBOX" ]]; then
+  echo "ERROR: resend job mailbox does not match its username."
+  exit 1
+fi
+
+echo "Claimed request ID: $REQUEST_ID"
+echo "Username: $USERNAME"
+echo "Mailbox: $MAILBOX"
+echo "Job type: $JOB_TYPE"
+echo "Invitation duration: $INVITATION_DAYS days"
+
+APPROVER_MODE='--worker-commit'
+SUCCESS_MARKER='APPROVAL_COMPLETE'
+
+if [[ $JOB_TYPE == 'resend' ]]; then
+  APPROVER_MODE='--worker-resend'
+  SUCCESS_MARKER='RESEND_COMPLETE'
+fi
+
+set +e
+
+env \
+  COVIN_APPROVE_USERNAME="$USERNAME" \
+  COVIN_APPROVE_DISPLAY_NAME="$DISPLAY_NAME" \
+  COVIN_APPROVE_CONTACT_EMAIL="$CONTACT_EMAIL" \
+  COVIN_APPROVE_INVITATION_DAYS="$INVITATION_DAYS" \
+  COVIN_WORKER_CONFIRM='APPROVE' \
+  "$APPROVER" "$APPROVER_MODE" \
+  >"$APPROVAL_LOG" 2>&1
+
+APPROVAL_STATUS=$?
+set -e
+
+cat "$APPROVAL_LOG"
+
+if [[ $APPROVAL_STATUS -ne 0 ]] ||
+   ! grep -qx "$SUCCESS_MARKER" "$APPROVAL_LOG"; then
+  ERROR_MESSAGE="Account ${JOB_TYPE} job failed with status ${APPROVAL_STATUS}. Review the covin-account-worker journal."
+
+  echo "ERROR: $ERROR_MESSAGE"
+
+  if ! run_occ covin-account:fail \
+      "$REQUEST_ID" \
+      "$CLAIM_TOKEN" \
+      "$ERROR_MESSAGE"; then
+    echo "CRITICAL: the job failed and its queue record could not be updated."
+  fi
+
+  exit 1
+fi
+
+if ! run_occ covin-account:complete \
+    "$REQUEST_ID" \
+    "$CLAIM_TOKEN" \
+    "$MAILBOX"; then
+  echo "CRITICAL: the host job succeeded, but its queue record could not be completed."
+  exit 1
+fi
+
+logger -t covin-account-worker \
+  "completed request_id=$REQUEST_ID job_type=$JOB_TYPE username=$USERNAME mailbox=$MAILBOX"
+
+echo "Account $JOB_TYPE job completed successfully."

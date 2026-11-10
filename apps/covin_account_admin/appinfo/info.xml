@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<info xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+    <id>covin_account_admin</id>
+    <name>Account Administration</name>
+    <summary>Review and queue Account Services account requests.</summary>
+    <description>Provides administrators with a credential-free request queue and a narrow host-worker protocol. External service credentials remain outside Nextcloud.</description>
+    <version>0.5.0</version>
+    <licence>agpl</licence>
+    <author mail="">Original contributors; see LICENSE</author>
+    <namespace>CovinAccountAdmin</namespace>
+    <category>tools</category>
+    <dependencies>
+        <nextcloud min-version="28" max-version="35"/>
+        <php min-version="8.1"/>
+    </dependencies>
+    <repair-steps>
+        <install>
+            <step>OCA\CovinAccountAdmin\Repair\InitializeClosureGate</step>
+        </install>
+    </repair-steps>
+    <commands>
+        <command>OCA\CovinAccountAdmin\Command\ClaimCommand</command>
+        <command>OCA\CovinAccountAdmin\Command\CompleteCommand</command>
+        <command>OCA\CovinAccountAdmin\Command\FailCommand</command>
+        <command>OCA\CovinAccountAdmin\Command\ClosureGuardCommand</command>
+    </commands>
+    <settings>
+        <admin>OCA\CovinAccountAdmin\Settings\Admin</admin>
+        <admin-section>OCA\CovinAccountAdmin\Settings\AdminSection</admin-section>
+    </settings>
+</info>

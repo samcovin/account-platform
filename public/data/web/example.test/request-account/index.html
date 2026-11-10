@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#071426">
+  <meta name="robots"
+        content="noindex,nofollow,noarchive,nosnippet,noimageindex">
+  <title>Request an account</title>
+  <style>
+    :root {
+      font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+      color: #f7fbff;
+      background: #071426;
+    }
+    * { box-sizing: border-box; }
+    body {
+      min-height: 100vh;
+      margin: 0;
+      padding: 1rem;
+      display: grid;
+      place-items: center;
+      background:
+        radial-gradient(circle at 15% 10%, #1769aa 0, transparent 35%),
+        linear-gradient(145deg, #071426, #0b2f4d 55%, #071a2c);
+    }
+    main {
+      width: min(100%, 42rem);
+      padding: clamp(1.4rem, 5vw, 2.8rem);
+      border: 1px solid rgb(255 255 255 / 18%);
+      border-radius: 1.5rem;
+      background: rgb(6 22 38 / 88%);
+      box-shadow: 0 2rem 5rem rgb(0 0 0 / 35%);
+    }
+    h1 { margin: 0 0 .75rem; font-size: clamp(2rem, 7vw, 3rem); }
+    p { color: #d3e5f2; line-height: 1.6; }
+    label { display: block; margin-top: 1.1rem; font-weight: 700; }
+    input, textarea {
+      width: 100%;
+      margin-top: .4rem;
+      padding: .85rem;
+      border: 1px solid rgb(255 255 255 / 30%);
+      border-radius: .7rem;
+      color: #fff;
+      background: rgb(255 255 255 / 8%);
+      font: inherit;
+    }
+    textarea { min-height: 8rem; resize: vertical; }
+    input:focus, textarea:focus {
+      outline: 3px solid #72c7ff;
+      outline-offset: 2px;
+    }
+    button, .back {
+      display: inline-block;
+      margin-top: 1.4rem;
+      padding: .8rem 1.1rem;
+      border-radius: .7rem;
+      font: inherit;
+      font-weight: 700;
+      text-decoration: none;
+    }
+    button {
+      border: 0;
+      color: #061522;
+      background: #f5fbff;
+      cursor: pointer;
+    }
+    .back {
+      margin-left: .5rem;
+      color: #f5fbff;
+      border: 1px solid rgb(255 255 255 / 30%);
+    }
+    .notice {
+      padding: .9rem 1rem;
+      border-left: .3rem solid #52b8ff;
+      border-radius: .5rem;
+      background: rgb(82 184 255 / 10%);
+    }
+    .trap {
+      position: absolute;
+      left: -10000px;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Request an account</h1>
+  <p>
+    Request access to Account Services. Every request is reviewed
+    manually.
+  </p>
+
+  <p class="notice">
+    Do not enter a password. If approved, setup instructions will be
+    sent to your current email address.
+  </p>
+
+  <form method="post" action="/request-account/submit">
+    <label>
+      Your name
+      <input name="name" maxlength="100" required autocomplete="name">
+    </label>
+
+    <label>
+      Preferred username
+      <input name="username" minlength="3" maxlength="64" required
+             pattern="[A-Za-z0-9](?:[A-Za-z0-9._-]{1,62}[A-Za-z0-9])"
+             title="Use 3–64 letters, numbers, periods, underscores, or hyphens; begin and end with a letter or number."
+             autocomplete="username">
+    </label>
+
+    <label>
+      Current email address
+      <input type="email" name="email" maxlength="254" required
+             autocomplete="email">
+    </label>
+
+    <div class="trap" aria-hidden="true">
+      <label>
+        Leave this field empty
+        <input name="website" tabindex="-1" autocomplete="off">
+      </label>
+    </div>
+
+    <button type="submit">Send request</button>
+    <a class="back" href="/">Cancel</a>
+  </form>
+</main>
+</body>
+</html>

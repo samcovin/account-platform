@@ -1,0 +1,14 @@
+# SPDX-License-Identifier: BSD-3-Clause
+# Copyright (c) 2026 Sam Covin
+# Install as /etc/covin/export-delivery.conf, root-owned mode 0600.
+DELIVERY_ROOT=/opt/covin-account-deliveries
+EXPORT_ROOT=/opt/covin-account-exports
+NEXTCLOUD_URL=https://cloud.example.test
+NEXTCLOUD_USER=covin-export-delivery
+NEXTCLOUD_APP_PASSWORD_FILE=/etc/covin/nextcloud-export-delivery.secret
+NEXTCLOUD_REMOTE_FOLDER=Account Exports
+MAILCOW_SENDMAIL_CONTAINER=mailcowdockerized-postfix-mailcow-1
+FROM_ADDRESS=requests@example.test
+REPLY_TO=requests@example.test
+EXPIRY_DAYS=7
+MASTER_RETENTION_DAYS=180

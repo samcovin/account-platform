@@ -1,0 +1,494 @@
+{
+  "schema": 1,
+  "maintainer_statement": "First-party code generated through ChatGPT at maintainer direction; reuse authorized for rights the maintainer controls.",
+  "bsd_copyright_holder": "Sam Covin",
+  "public_name_explicitly_selected": true,
+  "app_relicensing": "Not performed; existing AGPL declaration and original attribution retained.",
+  "license_sources": {
+    "BSD-3-Clause": "https://opensource.org/license/bsd-3-clause",
+    "AGPL-3.0-or-later": "https://raw.githubusercontent.com/spdx/license-list-data/main/text/AGPL-3.0-or-later.txt"
+  },
+  "preserved_notices": {
+    "LICENSE": "882c043d187e1e78edff009310fb62d48f020b8e7a31d9841b5f81b2e3babf73",
+    "apps/covin_account_admin/LICENSE": "763f23b04572ac28ccee24a52a5fca7fe4365a7249f15772346bd582af2ef210",
+    "LICENSES/AGPL-3.0-or-later.txt": "d8a6cc31abc16b6748c7a21f21611f5a1ec33f67d22ca23d7da1c19b95496bee"
+  },
+  "files": {
+    ".gitignore": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "AGENTS.md": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "CONTRIBUTING.md": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "LICENSE": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "LICENSE-MAP.json": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "LICENSES/AGPL-3.0-or-later.txt": {
+      "license": "LicenseRef-Verbatim-License-Document",
+      "basis": "verbatim license document; no software relicensing"
+    },
+    "LICENSING.md": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "PUBLIC_RELEASE_REVIEW.md": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "README.md": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "RELEASE_CHECKLIST.md": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "SECURITY.md": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "THIRD_PARTY_NOTICES.md": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "apps/covin_account_admin/LICENSE": {
+      "license": "AGPL-3.0-or-later",
+      "basis": "retained app package notice"
+    },
+    "apps/covin_account_admin/README.md": {
+      "license": "AGPL-3.0-or-later",
+      "basis": "retained app package notice"
+    },
+    "apps/covin_account_admin/appinfo/info.xml": {
+      "license": "AGPL-3.0-or-later",
+      "basis": "retained app package notice"
+    },
+    "apps/covin_account_admin/appinfo/routes.php": {
+      "license": "AGPL-3.0-or-later",
+      "basis": "retained app package notice"
+    },
+    "apps/covin_account_admin/css/admin.css": {
+      "license": "AGPL-3.0-or-later",
+      "basis": "retained app package notice"
+    },
+    "apps/covin_account_admin/img/app.svg": {
+      "license": "AGPL-3.0-or-later",
+      "basis": "retained app package notice"
+    },
+    "apps/covin_account_admin/js/admin.js": {
+      "license": "AGPL-3.0-or-later",
+      "basis": "retained app package notice"
+    },
+    "apps/covin_account_admin/lib/AppInfo/Application.php": {
+      "license": "AGPL-3.0-or-later",
+      "basis": "retained app package notice"
+    },
+    "apps/covin_account_admin/lib/Command/ClaimCommand.php": {
+      "license": "AGPL-3.0-or-later",
+      "basis": "retained app package notice"
+    },
+    "apps/covin_account_admin/lib/Command/ClosureGuardCommand.php": {
+      "license": "AGPL-3.0-or-later",
+      "basis": "retained app package notice"
+    },
+    "apps/covin_account_admin/lib/Command/CompleteCommand.php": {
+      "license": "AGPL-3.0-or-later",
+      "basis": "retained app package notice"
+    },
+    "apps/covin_account_admin/lib/Command/FailCommand.php": {
+      "license": "AGPL-3.0-or-later",
+      "basis": "retained app package notice"
+    },
+    "apps/covin_account_admin/lib/Controller/ApiController.php": {
+      "license": "AGPL-3.0-or-later",
+      "basis": "retained app package notice"
+    },
+    "apps/covin_account_admin/lib/Controller/PublicRequestController.php": {
+      "license": "AGPL-3.0-or-later",
+      "basis": "retained app package notice"
+    },
+    "apps/covin_account_admin/lib/Db/AccountRequest.php": {
+      "license": "AGPL-3.0-or-later",
+      "basis": "retained app package notice"
+    },
+    "apps/covin_account_admin/lib/Db/AccountRequestMapper.php": {
+      "license": "AGPL-3.0-or-later",
+      "basis": "retained app package notice"
+    },
+    "apps/covin_account_admin/lib/Db/AuditEvent.php": {
+      "license": "AGPL-3.0-or-later",
+      "basis": "retained app package notice"
+    },
+    "apps/covin_account_admin/lib/Db/AuditEventMapper.php": {
+      "license": "AGPL-3.0-or-later",
+      "basis": "retained app package notice"
+    },
+    "apps/covin_account_admin/lib/Migration/Version010000Date20260917000000.php": {
+      "license": "AGPL-3.0-or-later",
+      "basis": "retained app package notice"
+    },
+    "apps/covin_account_admin/lib/Migration/Version020000Date20260918000000.php": {
+      "license": "AGPL-3.0-or-later",
+      "basis": "retained app package notice"
+    },
+    "apps/covin_account_admin/lib/Migration/Version050000Date20261012000000.php": {
+      "license": "AGPL-3.0-or-later",
+      "basis": "retained app package notice"
+    },
+    "apps/covin_account_admin/lib/Repair/InitializeClosureGate.php": {
+      "license": "AGPL-3.0-or-later",
+      "basis": "retained app package notice"
+    },
+    "apps/covin_account_admin/lib/Service/ClosureRegistry.php": {
+      "license": "AGPL-3.0-or-later",
+      "basis": "retained app package notice"
+    },
+    "apps/covin_account_admin/lib/Settings/Admin.php": {
+      "license": "AGPL-3.0-or-later",
+      "basis": "retained app package notice"
+    },
+    "apps/covin_account_admin/lib/Settings/AdminSection.php": {
+      "license": "AGPL-3.0-or-later",
+      "basis": "retained app package notice"
+    },
+    "apps/covin_account_admin/templates/admin.php": {
+      "license": "AGPL-3.0-or-later",
+      "basis": "retained app package notice"
+    },
+    "docs/architecture.md": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "docs/change-template.md": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "docs/changes/2026-11-10-experimental-source-release.md": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "docs/changes/2026-11-10-public-release-preparation.md": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "docs/changes/2026-11-10-release-gate-validation.md": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "docs/current-state.md": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "docs/dependency-boundaries.md": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "docs/deployment-status.md": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "docs/experimental-release-validation.json": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "docs/experimental-release.md": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "docs/github-handoff.md": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "docs/handoff.md": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "docs/lab-validation.md": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "docs/licensing-and-attribution.md": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "docs/remaining-release-decisions.md": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "docs/source-provenance.md": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "docs/validation-results.json": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "docs/validation.md": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "docs/work-configuration.md": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "host/account/README.md": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "host/account/check-closure-guards.sh": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "host/account/covin-account-access.py": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "host/account/covin-account-closure-preflight.py": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "host/account/lab-concurrency-checks.php": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "host/account/lab-concurrency.php": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "host/account/lab-install.php": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "host/account/lab-upgrade.php": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "host/account/lab-verify.php": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "host/account/nextcloud-closure-preflight.php": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "host/account/prepare-closure-lab.sh": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "host/account/test_access.py": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "host/account/test_closure_guards.php": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "host/account/test_closure_preflight.py": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "host/account/test_concurrency_checks.php": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "host/account/test_guard_approver.py": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "host/account/test_lab_setup.py": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "host/account/upgrade-baseline-0.4.0.json": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "host/export/README.md": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "host/export/covin-account-export.py": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "host/export/covin-export-cleanup.py": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "host/export/covin-export-cleanup.service": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "host/export/covin-export-cleanup.timer": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "host/export/covin-export-delivery.py": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "host/export/export-delivery.conf.example": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "host/export/nextcloud-export.php": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "host/export/test_cleanup.py": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "host/export/test_delivery.py": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "host/export/test_export.py": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "host/worker/covin-account-worker": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "host/worker/covin-account-worker.service": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "host/worker/covin-account-worker.timer": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "host/worker/covin-approve-account": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "public/data/conf/nginx/covin-landing.include": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "public/data/web/example.test/index.html": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "public/data/web/example.test/request-account/index.html": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "public/data/web/example.test/request-account/submit.php": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "tools/check-lab-baseline.py": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "tools/check-public-release.py": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "tools/check-source.py": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "tools/test_handoff.py": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "tools/test_lab_baseline.py": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "tools/test_public_form.py": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "tools/test_public_release.py": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "tools/test_runtime_safety.py": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    },
+    "tools/verify-handoff.py": {
+      "license": "BSD-3-Clause",
+      "basis": "maintainer-authorized first-party grant; third-party rights not overridden"
+    }
+  },
+  "release_gates": [
+    {
+      "id": "OWNERSHIP-REVIEW",
+      "status": "resolved",
+      "question": "Confirm source inputs/assets, contributor/employer/client interests and app attribution authority.",
+      "resolution": "Maintainer confirms no outside material or known ownership restriction, following earlier first-party generated-code release authorization. Existing notices and attribution remain intact. This is a maintainer statement, not independent proof of rights.",
+      "evidence": [
+        "docs/experimental-release.md",
+        "docs/source-provenance.md",
+        "LICENSING.md"
+      ]
+    },
+    {
+      "id": "APP-INTEGRATION-RIGHTS",
+      "status": "resolved",
+      "question": "Confirm acceptance of source-only mixed-license distribution, with no dependency implementations/images/binaries bundled and combined-distribution obligations still requiring review.",
+      "resolution": "Maintainer explicitly accepts preserving mixed BSD/AGPL source scope, bundling no dependency implementations/images/binaries, and documenting that combined-distribution obligations need review before deployment or bundling. This resolves the experimental artifact scope, not the legal status of unreviewed future combinations.",
+      "evidence": [
+        "docs/experimental-release.md",
+        "docs/dependency-boundaries.md",
+        "LICENSING.md",
+        "THIRD_PARTY_NOTICES.md"
+      ]
+    },
+    {
+      "id": "SECURITY-POLICY",
+      "status": "resolved",
+      "question": "Review service targets, MFA/TLS, logs/IP/privacy, retention, delivery and private reporting route.",
+      "resolution": "Experimental source scope keeps runtime opt-in disabled by default and documents unresolved installation policy. Maintainer selected GitHub private vulnerability reporting, to be activated and verified only after final publication approval and before the first source push. Activation is a remaining publication prerequisite, not a completed check.",
+      "evidence": [
+        "SECURITY.md",
+        "docs/experimental-release.md",
+        "docs/github-handoff.md",
+        "docs/work-configuration.md"
+      ]
+    },
+    {
+      "id": "PHP-VALIDATION",
+      "status": "resolved",
+      "question": "Run PHP lint and PHP/HTTP tests, including both public-form opt-in states.",
+      "resolution": "PHP 8.3.36 with host INI disabled: all 30 PHP files linted; 29 closure and 26 concurrency-outcome PHP mock cases passed; 17 real PHP/HTTP/SMTP loopback fixture tests passed with zero skips/failures. Full service/framework/FPM/TLS compatibility remains in SERVICE-VALIDATION.",
+      "evidence": [
+        "docs/validation-results.json",
+        "docs/validation.md",
+        "tools/test_public_form.py"
+      ]
+    },
+    {
+      "id": "SERVICE-VALIDATION",
+      "status": "resolved",
+      "question": "Establish isolated runtime evidence or explicitly review an experimental-source release with documented limits.",
+      "resolution": "Maintainer explicitly requests an experimental source release with full service, database, upgrade and recovery integrations labeled untested. This closes the release-scope decision only; no real integration, migration, concurrency or encrypted-recovery success is claimed or authorized.",
+      "evidence": [
+        "docs/experimental-release.md",
+        "docs/validation.md",
+        "docs/validation-results.json"
+      ]
+    },
+    {
+      "id": "PUBLICATION-APPROVAL",
+      "status": "pending",
+      "question": "Approve exact repository name, personal/work owners, public fork visibility, author/committer identity, source manifest/archive and reporting activation before creating repositories or publishing."
+    }
+  ]
+}

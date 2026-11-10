@@ -1,0 +1,153 @@
+{
+  "date_utc": "2026-11-10T01:22:37+00:00",
+  "status": "independent local checks passed; PHP gate resolved; five maintainer gates pending; not cleared for release",
+  "python_test_total": 166,
+  "tests": [
+    {
+      "suite": "tools-no-http",
+      "command": "Python unittest discovery of tools/test_*.py except test_public_form.py; form suite run separately",
+      "date_utc": "2026-11-10T01:17:45+00:00",
+      "classification": "offline mock/local file fixtures; service commands blocked",
+      "test_count": 55,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 0,
+      "result": "passed"
+    },
+    {
+      "suite": "host/account",
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s host/account -p test_*.py -v",
+      "date_utc": "2026-11-10T01:18:37+00:00",
+      "classification": "offline mock/local file fixtures; service commands blocked",
+      "test_count": 73,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 0,
+      "result": "passed"
+    },
+    {
+      "suite": "host/export",
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s host/export -p test_*.py -v",
+      "date_utc": "2026-11-10T01:17:43+00:00",
+      "classification": "offline mock/local file fixtures; service commands blocked",
+      "test_count": 21,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 0,
+      "result": "passed"
+    },
+    {
+      "suite": "tools/test_public_form.py",
+      "command": "ACCOUNT_PLATFORM_TEST_PHP=/path/to/trusted/php PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tools -p test_public_form.py -v",
+      "classification": "real PHP 8.3.36 builtin server; disposable owned loopback HTTP/SMTP protocol fixtures; no existing services",
+      "test_count": 17,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 0,
+      "result": "passed",
+      "target_substitutions": "Throwaway handler copy changes only ingress URL and SMTP target; repository handler unchanged",
+      "coverage": [
+        "server-only runtime opt-in unset/zero/non-exact refusal",
+        "request field cannot enable opt-in",
+        "method/input/header-injection/honeypot handling",
+        "HMAC on accepted synthetic request",
+        "duplicate notification avoidance",
+        "missing signing fixture fails closed",
+        "rejected/malformed/redirected ingress stays generic; redirect is not followed",
+        "SMTP failure preserves accepted request without raw backend error"
+      ]
+    }
+  ],
+  "source_checks": {
+    "command": "PYTHONDONTWRITEBYTECODE=1 python3 tools/check-source.py (PHP wrapper adds -n)",
+    "bash_javascript_syntax": 5,
+    "php_syntax": 30,
+    "syntax_total": 35,
+    "python_in_memory_compilation": 21,
+    "xml_svg_parsing": 2,
+    "local_document_links": "passed",
+    "hygiene": "source checks plus verify-handoff.py default and --initial-import; public checker; staged diff reviewed"
+  },
+  "runtime_safety": [
+    "Shell entrypoints refuse before service commands/locks without opt-in",
+    "Export CLIs refuse before root/runtime-file/service access without opt-in",
+    "Access/read-only preflight refuse before production backend construction",
+    "Worker suppresses an invalid synthetic service response",
+    "Mocked lab refuses absent reviewed image IDs before external commands",
+    "Existing positive mock paths explicitly opt in and pass",
+    "Public form server opt-in cannot be supplied by request fields; disabled cases make zero fixture service calls",
+    "Public form HMAC, error suppression, no-follow redirects and fake SMTP handling tested with real PHP"
+  ],
+  "notice_preservation": {
+    "agpl_app_files_bytes_modes_unchanged": 26,
+    "app_license_metadata_unchanged": true,
+    "full_agpl_document_verbatim": true,
+    "new_bsd_holder": "Sam Covin",
+    "public_name_explicitly_selected": true
+  },
+  "privacy_review": {
+    "no_production_credentials_or_real_account_payload_identified": true,
+    "no_original_service_domain_or_personal_home_path_identified": true,
+    "intentional_identity": [
+      "Sam Covin in authorized BSD notices",
+      "Original app copyright holder in preserved notice; see THIRD_PARTY_NOTICES.md",
+      "Free Software Foundation in license document"
+    ],
+    "legacy_identifiers_and_example_settings": "retained and documented",
+    "private_preparation_reference_git_metadata_in_source_archive": "excluded"
+  },
+  "not_run": [
+    "Real Nextcloud/Mailcow/Authentik/MariaDB/Dovecot/SOGo integration",
+    "Full Nextcloud framework, FPM/Nginx and real TLS/proxy/browser compatibility",
+    "Real isolated lab creation, migrations, populated 0.4.0 upgrade and database concurrency",
+    "Readable encrypted account restore and E2EE coverage",
+    "Production operations, real email/account delivery/retention cleanup and user acceptance"
+  ],
+  "review_limits": "Local source scans, mocks and loopback protocol fixtures do not establish legal rights, private policy or full runtime integration. Five maintainer gates remain pending.",
+  "input_preservation": "Original repository, saved archive, prior work copy and older reference unchanged.",
+  "php_validation": {
+    "runtime": "PHP 8.3.36, -n (no ini)",
+    "linted_files": 30,
+    "lint_failures": 0,
+    "runtime_provenance": "Temporary distro php-legacy 8.3.36 package; detached signature verified against installed Arch keyring; not installed system-wide or bundled",
+    "package_sha256": "66d0a44ed5cc7881b5b47517a75f2452dfdcb52600641e722cc7d424ffdcbc09",
+    "lint_command": "php -n -l <each PHP source file>",
+    "mock_suites": [
+      {
+        "command": "php -n host/account/test_closure_guards.php",
+        "test_count": 29,
+        "failures": 0,
+        "exit_code": 0
+      },
+      {
+        "command": "php -n host/account/test_concurrency_checks.php",
+        "test_count": 26,
+        "failures": 0,
+        "exit_code": 0
+      }
+    ],
+    "mock_test_total": 55,
+    "classification": "PHP fake OCP/DB logic and synthetic concurrency-outcome cases; not an actual database race/migration test",
+    "php_http_fixture_test_count": 17
+  },
+  "systemd_validation": {
+    "command": "systemd-analyze --root=<disposable-fixture-root> --generators=no --man=no verify <two services and two timers>",
+    "units": 4,
+    "exit_code": 0,
+    "result": "passed",
+    "classification": "offline systemd unit verification using disposable root/dependency/executable fixtures; no services started",
+    "limit": "Fake dependency targets and executable paths; no host manager, Docker, timer or real service used"
+  },
+  "checker_regressions": {
+    "empty_gate_list_bypass_reproduced_against_original_checker": true,
+    "now_requires": "Exactly six distinct named gates, valid states, and a resolution plus existing-file evidence for each resolved gate",
+    "index_history_hygiene": "Public checker now invokes stored-object/index hygiene when Git is present; staged-only secret regression passed",
+    "release_mode_expected_exit": 2,
+    "pending_gate_count": 5
+  },
+  "record_scope": "Prior 2026-11-10 01:22 UTC validation checkpoint; later maintainer decisions and current source checks are recorded separately in docs/experimental-release-validation.json and docs/remaining-release-decisions.md"
+}

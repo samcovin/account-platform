@@ -1,0 +1,96 @@
+{
+  "schema": 1,
+  "app_id": "covin_account_admin",
+  "version": "0.4.0",
+  "source_snapshot": "a8e462e56897252d565cfc50ecc8e617beeddc76",
+  "files": {
+    "apps/covin_account_admin/LICENSE": {
+      "sha256": "763f23b04572ac28ccee24a52a5fca7fe4365a7249f15772346bd582af2ef210",
+      "mode": 420
+    },
+    "apps/covin_account_admin/README.md": {
+      "sha256": "704400c60dfeea1187a3f55d168fadebd63eef8abcb796f3a69a5391539ef21f",
+      "mode": 420
+    },
+    "apps/covin_account_admin/appinfo/info.xml": {
+      "sha256": "b1a61922c2123a60ceb6ea86febfab8b64338eddc804f367341e4ee15dca1fbe",
+      "mode": 420
+    },
+    "apps/covin_account_admin/appinfo/routes.php": {
+      "sha256": "da57f5dde058d7043944625672ced17c97702d4f2d13c6dab361d87209152a80",
+      "mode": 420
+    },
+    "apps/covin_account_admin/css/admin.css": {
+      "sha256": "1dba192302f9feb03f2bdaff96a8d8b0f4276a30b2de121a89b04f8f3a8b4bf2",
+      "mode": 420
+    },
+    "apps/covin_account_admin/img/app.svg": {
+      "sha256": "ba83fdf2a5c96b886667610acbc618953e830d02909c202d5456b7a69ad92519",
+      "mode": 420
+    },
+    "apps/covin_account_admin/js/admin.js": {
+      "sha256": "b20fcfa277ddb0928808fd0675c3c9fe55dffa14a329d07c12f4e75213fd45f6",
+      "mode": 420
+    },
+    "apps/covin_account_admin/lib/AppInfo/Application.php": {
+      "sha256": "a3fb26b3196f8256074cc6a791c5ade837883823da3818be1a34e2680388cabe",
+      "mode": 420
+    },
+    "apps/covin_account_admin/lib/Command/ClaimCommand.php": {
+      "sha256": "f3da64a929d87155734a7a1d0fe948f8b2b737265500295f0b3a3b4315cfeabd",
+      "mode": 420
+    },
+    "apps/covin_account_admin/lib/Command/CompleteCommand.php": {
+      "sha256": "7353607fb3b37099e0e4c5c6a6a50dded43a5c69810630ff8fb8e8506b397584",
+      "mode": 420
+    },
+    "apps/covin_account_admin/lib/Command/FailCommand.php": {
+      "sha256": "e0010641f0510388c5d9de3646333f78d9076faaad4b9e5b5e8f61693d845e3e",
+      "mode": 420
+    },
+    "apps/covin_account_admin/lib/Controller/ApiController.php": {
+      "sha256": "e80b3653527fd5903cccfbb5d109b5db239da9c63808bbc1a6430de4918b0f09",
+      "mode": 420
+    },
+    "apps/covin_account_admin/lib/Controller/PublicRequestController.php": {
+      "sha256": "cbb4cb93f4ad2fd14081ea444185d17f732c5c292eb3a283eb6f3eb348aab8a3",
+      "mode": 420
+    },
+    "apps/covin_account_admin/lib/Db/AccountRequest.php": {
+      "sha256": "b1880bd5ebb0155aae9ff751e14b8ea37adaee0ff1f84d1fcf919250146d3d3e",
+      "mode": 420
+    },
+    "apps/covin_account_admin/lib/Db/AccountRequestMapper.php": {
+      "sha256": "06b8f159306901589e57bed0c261259536337ff0bee10a973dd9e5bc0f76a7ae",
+      "mode": 420
+    },
+    "apps/covin_account_admin/lib/Db/AuditEvent.php": {
+      "sha256": "3317b17cc357d6da14288866e65dc3b4e96e08e8f887c8e2b3a347e3ca5a1769",
+      "mode": 420
+    },
+    "apps/covin_account_admin/lib/Db/AuditEventMapper.php": {
+      "sha256": "5caea0075f2f769933549894a309e59b1cfa49e51fb48af6e2c2d4d98c37d0f3",
+      "mode": 420
+    },
+    "apps/covin_account_admin/lib/Migration/Version010000Date20260917000000.php": {
+      "sha256": "a2f503a6a8046bc5efe8d6af48f95427c519d274dab68d7631724b99cd9f9d37",
+      "mode": 420
+    },
+    "apps/covin_account_admin/lib/Migration/Version020000Date20260918000000.php": {
+      "sha256": "9b647ec0772f02473b46f410f974f9720e5c0f62733cbc704ef3b431976b4fca",
+      "mode": 420
+    },
+    "apps/covin_account_admin/lib/Settings/Admin.php": {
+      "sha256": "553a80301faa6c98a9ac1a88b14fb847d1407a2c9df16bca02cb986caea02d28",
+      "mode": 420
+    },
+    "apps/covin_account_admin/lib/Settings/AdminSection.php": {
+      "sha256": "1150d74369155969f71dc4bbc2871c196629685d06b8ed76979fd2127ccf3c3c",
+      "mode": 420
+    },
+    "apps/covin_account_admin/templates/admin.php": {
+      "sha256": "3b1671b1d72c6843bcf13a6819f9379fdcc7a9b04f558923a7077b99d2839b84",
+      "mode": 420
+    }
+  }
+}
